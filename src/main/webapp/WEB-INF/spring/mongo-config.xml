@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+ xsi:schemaLocation="http://www.springframework.org/schema/context
+		 http://www.springframework.org/schema/context/spring-context.xsd
+		 http://www.springframework.org/schema/data/mongo
+		 http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+		 http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+	<beans profile="development">
+		<context:property-placeholder location="file:${catalina.home}/data/dbproperties/wise/development.properties" ignore-unresolvable="true"/>
+	</beans>
+	<beans profile="acceptance">
+		<context:property-placeholder location="file:${catalina.home}/data/dbproperties/wise/acceptance.properties" ignore-unresolvable="true"/>
+	</beans>
+	
+	<beans>
+		<!-- To translate any MongoExceptions thrown in @Repository annotated classes -->
+		<context:annotation-config />
+		<mongo:repositories base-package="es.sogeti.wiseqarest.dao" />
+		
+		<bean id="mongoClient" class="org.springframework.data.mongodb.core.MongoClientFactoryBean">
+			<property name="host" value="${mongodb.host}" />
+			<property name="port" value="${mongodb.port}" />
+		</bean>
+		
+		<bean id="mongoDbFactory" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+			<constructor-arg name="mongoClient" ref="mongoClient" />
+			<constructor-arg name="databaseName" value="${mongodb.dbName}" />
+		</bean>
+		
+		<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+			<constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+		</bean>
+	</beans>
+	
+</beans>
