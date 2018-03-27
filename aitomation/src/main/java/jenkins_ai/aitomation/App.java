@@ -1,8 +1,5 @@
 package jenkins_ai.aitomation;
 
-import java.io.IOException;
-import java.util.Base64;
-
 /**
  * Hello world!
  *
@@ -11,6 +8,8 @@ public class App {
 	
     public static void main(String[] args) {
     	
+    	System.out.println("Hello Oskk");
+    	/*
     	int port = 8010;
     	String password = "Sogeti@4";
     	String username = "sogetilabs";
@@ -30,5 +29,6 @@ public class App {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+		*/
     }
 }
